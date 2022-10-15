@@ -187,3 +187,4 @@ class PointAPIDestroy(generics.RetrieveUpdateAPIView):
     queryset = Point.objects.all()
     serializer_class = PointSerializer
     permission_classes = (IsAdminOrOnlyRead,)
+
