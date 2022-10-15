@@ -168,7 +168,7 @@ def about_API(request):
     return render(request, 'vuqes/API.html', {'title': 'API'})
 
 
-# Здесь представления DRF
+# Здесь представления для DRF
 
 
 class PointViewSet(viewsets.ModelViewSet):
