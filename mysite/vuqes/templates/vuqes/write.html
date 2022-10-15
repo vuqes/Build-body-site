@@ -1,0 +1,32 @@
+{% extends 'vuqes/base.html' %}
+<html lang="en">
+{% block content %}
+    <meta charset="UTF-8">
+  <h1>{{ title }}</h1>
+<form action="{% url 'write' %}" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-secondary">Записаться</button>
+</form>
+<h2 align="center">Расписание:</h2>
+<br>
+<table class="table caption-top">
+  <thead>
+    <tr>
+      <th scope="col">№</th>
+      <th scope="col">Дата записи</th>
+      <th scope="col">Имя</th>
+
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in get %}
+    <tr>
+      <th scope="row">{{ i.id }}</th>
+      <td>{{ i.datetime }}</td>
+      <td>{{ i.name }} {{ i.last_name }}</td>
+    </tr>
+          {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

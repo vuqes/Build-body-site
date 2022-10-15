@@ -1,0 +1,27 @@
+{% extends 'vuqes/base.html' %}
+{% block content %}
+<h2>Нажмите на категорию, чтобы найти нужный пост</h2>
+<br>
+{% for j in get_cat %}
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    {{ j }}
+  </button>
+  <ul class="dropdown-menu">
+      {% for i in get %}
+            {% if i.cat == j  %}
+                <div class="list-group">
+                    <a href="{% url 'index' i.slug %}" class="list-group-item list-group-item-action">{{ i }}</a>
+                </div>
+            {% endif %}
+      {% endfor %}
+  </ul>
+</div>
+<br>
+{% endfor %}
+
+
+
+
+
+{% endblock %}

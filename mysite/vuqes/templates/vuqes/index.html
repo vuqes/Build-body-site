@@ -1,0 +1,53 @@
+{% extends 'vuqes/base.html' %}
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head class="site-header">
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+{% block content %}
+<div class="clearfix">
+
+{% if get.photo %}
+<p><img class="col-md-6 float-md-end mb-3 ms-md-3" src="{{get.photo.url}}"></p>
+{% endif %}
+<h2 class="fs-1">{{ get.title }}</h2>
+    <br>
+<p class="fs-4">{{ get.description }}</p>
+    <br>
+<p>Дата публикации: </p>
+<p class="selected">{{ get.pub_date }}</p>
+<hr>
+
+</div>
+<!--блок комментарий-->
+<form method="post">
+  {% csrf_token %}
+
+    <div class="form-error">{{ form.non_field_errors }}</div>
+
+{% for f in form %}
+<p><label class="form-label" for="f.id_for_label">{{ f.label }}: </label>{{ f }}</p>
+    <div class="form-error">{{ f.errors }}</div>
+{% endfor %}
+{% if request.user.is_authenticated %}
+    <button type="submit" class="btn btn-secondary">Отправить</button>
+{% else %}
+        <h3 class="h-3"><a href="{% url 'logout' %}">Войдите</a>, чтобы оставить комментарий или <a href="{% url 'register' %}">зарегистрируйтесь.</a></h3>
+{% endif %}
+<div>
+    <br>
+        {% for i in names %}
+            {% if i.ident == get.slug %}
+                <fieldset class="content_text">
+                <h5>{{ i.user }}:</h5>
+                    <h4><i>{{ i.comment }}</i></h4>
+                <p>Опубликовано: {{ i.date }}</p>
+                </fieldset>
+                <br>
+            {% endif %}
+        {% endfor %}
+{% endblock %}
+<!--конец блока комментария-->
+</div>
+</form>
+</html>
