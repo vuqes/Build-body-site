@@ -155,8 +155,4 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
-    # 'DEFAULT_PERMISSION_CLASSES': [  # на глобальном уроне запрещаем чтение неавторизованным пользователям
-    #     'rest_framework.permissions.IsAuthenticated',  # по умолчанию установлен AllowAny
-    # ],
-
 }

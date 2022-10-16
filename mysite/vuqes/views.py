@@ -1,8 +1,5 @@
 from django.contrib.auth import logout, login
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.core.mail import send_mail
-from django.http import HttpResponseRedirect, HttpResponse, BadHeaderError
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, FormView, DetailView
@@ -46,12 +43,14 @@ def index(request, slug):   # Оставляем комментарий + ото
 def write_up(request):
     if request.method == 'POST':
         form = WriteUpForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and form.cleaned_data['datetime'] > timezone.now():
             try:
                 WriteToTraining.objects.create(**form.cleaned_data)
                 return redirect('write')
             except:
                 form.add_error(None, 'Ошибка записи! Проверьте введенные вами данные')
+        else:
+            form.add_error(None, 'Ошибка записи! Неверно установлена дата.')
     else:
         form = WriteUpForm()
     context = {

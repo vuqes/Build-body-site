@@ -8,26 +8,6 @@ from django.core.exceptions import ValidationError
 from.models import *
 
 
-# class AddPostForm(forms.ModelForm):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.fields['cat'].empty_label = 'Категория не выбрана'
-#
-#     class Meta:
-#         model = Point
-#         fields = ['title', 'slug', 'description', 'photo', 'pub_date', 'cat']
-#         widgets = {
-#             'title': forms.TextInput(attrs={'class': 'form-input'}),
-#             'description': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
-#         }
-#
-#     def clean_title(self):
-#         title = self.cleaned_data['title']
-#         if len(title) > 50:
-#             raise ValidationError('Длина превышает 50 символов')
-#         return title
-
-
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
     email = forms.CharField(label='Email', widget=forms.TextInput(attrs={'class': 'form-input'}))
