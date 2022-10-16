@@ -3,6 +3,7 @@
 {% block content %}
     <meta charset="UTF-8">
   <h1>{{ title }}</h1>
+<br>
 <form action="{% url 'write' %}" method="post">{% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-secondary">Записаться</button>

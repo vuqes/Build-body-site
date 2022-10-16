@@ -63,19 +63,6 @@ def write_up(request):
     return render(request, 'vuqes/write.html', context)
 
 
-class Move(LoginRequiredMixin, DataMixin, CreateView):
-    form_class = AddPostForm
-    template_name = 'vuqes/desc_2.html'
-    login_url = reverse_lazy('home')
-    success_url = reverse_lazy('home')
-    raise_exception = True
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Добавить статью')
-        return context | c_def
-
-
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'vuqes/register.html'
@@ -126,29 +113,6 @@ class ContactFormView(DataMixin, FormView):
         return redirect('home')
 
 
-class SendEmail(DataMixin, FormView):
-    form_class = SendEmailForm
-    template_name = 'vuqes/email.html'
-    success_url = reverse_lazy('email')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Отправить сообщение')
-        return context | c_def
-
-    def send_email(self, request):
-        if request.method == 'POST':
-            form = SendEmailForm(request.POST)
-            if form.is_valid():
-                try:
-                    send_mail(form)
-                except BadHeaderError:
-                    return HttpResponse('Invalid header found.')
-                return HttpResponseRedirect('email')
-            else:
-                return HttpResponse('Make sure all fields are entered and valid.')
-
-
 def category(request):
     context = {
         'get': Point.objects.all(),
@@ -171,19 +135,19 @@ def about_API(request):
 # Здесь представления для DRF
 
 
-class PointViewSet(viewsets.ModelViewSet):
+class PointViewSet(viewsets.ModelViewSet):  # список постов
     queryset = Point.objects.all()
     serializer_class = PointSerializer
     permission_classes = (IsAdminOrOnlyRead,)
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):  # список пользователей
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsAdminUser,)
 
 
-class PointAPIDestroy(generics.RetrieveUpdateAPIView):
+class PointAPIDestroy(generics.RetrieveUpdateAPIView):  # пост по идентификатору
     queryset = Point.objects.all()
     serializer_class = PointSerializer
     permission_classes = (IsAdminOrOnlyRead,)
